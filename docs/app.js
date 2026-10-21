@@ -1,6 +1,6 @@
 // ===================== 配置 =====================
 // 你的 Cloudflare Worker 地址（部署后在 Worker 页面能看到），末尾不要带 /
-const API_BASE = 'https://ai-avatar.你的子域.workers.dev';
+const API_BASE = 'ai-avatar.476937123.workers.dev';
 // 面包多 / 发卡平台的商品链接
 const BUY_URL = 'https://example.com/你的商品链接';
 // ================================================
@@ -33,12 +33,20 @@ async function api(path, body) {
 }
 
 // ---------- 风格选择（单选组，支持键盘方向键） ----------
-async function loadStyles() {
+// 风格列表直接写在前端，不依赖后端也能显示。
+// id 必须和 worker/worker.js 里 STYLES 的键一致，提示词在后端维护。
+const STYLES = [
+  { id: 'cartoon3d', name: '3D 卡通' },
+  { id: 'anime', name: '日系动漫' },
+  { id: 'handdrawn', name: '手绘治愈' },
+  { id: 'chibi', name: 'Q 版萌系' },
+  { id: 'comic', name: '美式漫画' },
+  { id: 'watercolor', name: '水彩插画' },
+];
+
+function renderStyles() {
   const box = $('styles');
-  const res = await fetch(API_BASE + '/api/styles');
-  if (!res.ok) throw new Error('styles ' + res.status);
-  const list = await res.json();
-  list.forEach((s, i) => {
+  STYLES.forEach((s, i) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.setAttribute('role', 'radio');
@@ -156,4 +164,9 @@ $('genBtn').addEventListener('click', async () => {
   }
 });
 
-loadStyles().catch(() => setStatus('页面加载失败，请刷新重试', true));
+renderStyles();
+
+// 后端地址还是占位符时提醒一下（只在本地预览或刚部署时会看到）
+if (API_BASE.includes('你的子域')) {
+  setStatus('提示：还没有配置后端地址，请修改 docs/app.js 顶部的 API_BASE', true);
+}
