@@ -25,7 +25,15 @@
 
     <section aria-labelledby="s2">
       <h2 id="s2">2. 选择风格</h2>
-      <div id="styles" class="styles" role="radiogroup" aria-labelledby="s2"></div>
+      <!-- 风格按钮。data-id 必须和 worker/worker.js 里 STYLES 的键一致 -->
+      <div id="styles" class="styles" role="radiogroup" aria-labelledby="s2">
+        <button type="button" role="radio" data-id="cartoon3d" aria-checked="true" tabindex="0">3D 卡通</button>
+        <button type="button" role="radio" data-id="anime" aria-checked="false" tabindex="-1">日系动漫</button>
+        <button type="button" role="radio" data-id="handdrawn" aria-checked="false" tabindex="-1">手绘治愈</button>
+        <button type="button" role="radio" data-id="chibi" aria-checked="false" tabindex="-1">Q 版萌系</button>
+        <button type="button" role="radio" data-id="comic" aria-checked="false" tabindex="-1">美式漫画</button>
+        <button type="button" role="radio" data-id="watercolor" aria-checked="false" tabindex="-1">水彩插画</button>
+      </div>
     </section>
 
     <section aria-labelledby="s3">
